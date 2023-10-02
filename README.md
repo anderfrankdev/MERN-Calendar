@@ -1,27 +1,38 @@
-# React + TypeScript + Vite
+# MERN Calendar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a web application that allows users to create, edit, delete and view events on a calendar. It is built with the MERN stack, which consists of MongoDB, Express.js, React.js and Node.js, and uses TypeScript for static type checking.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User authentication with JWT and bcrypt
+- CRUD operations for events
+- Responsive user interface with Bootstrap
+- Unit test with vitest.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To install this project, follow these steps:
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone this repository
+2. Make sure you have Node.js, and npm installed on your machine
+3. Create a cluster on MongoDB Atlas and get the database URI
+4. Create a `.env` file in the `server` folder and add the following variables:
+    - `PORT`: the port number for the server (default is 5000)
+    - `MONGO_URI`: the database URI from MongoDB Atlas
+    - `JWT_SECRET`: a secret key for JWT
+5. Run `npm install` to install dependencies
+6. Run `npm start` to start.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## Usage
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To use this application, you need to register an account or log in with an existing one. You can also use social login with Apple, Facebook or Google. Once you are logged in, you can see the calendar view with your events. You can create a new event by clicking on a date or time slot, edit an existing event by clicking on it, or delete an event by dragging it to the trash bin icon. You can also switch between different views (month, week, day) and navigate through the calendar.
+
+## Testing
+
+To run the tests for this project, follow these steps:
+
+1. Run `npm test` in the root folder to run the client tests
+
+## License
+
+This project is licensed under the MIT License - see the LICENCE file for details
