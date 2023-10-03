@@ -1,13 +1,12 @@
-import { AppRouter } from './router/AppRouter';
-import './App.css'
+import { AppRouter } from "./router/AppRouter";
+import "./App.css";
 
 function CalendarApp() {
-
   return (
     <>
-      <AppRouter/>
+      <AppRouter />
     </>
-  )
+  );
 }
 
-export default CalendarApp
+export default CalendarApp;

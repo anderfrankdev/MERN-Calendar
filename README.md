@@ -17,9 +17,9 @@ To install this project, follow these steps:
 2. Make sure you have Node.js, and npm installed on your machine
 3. Create a cluster on MongoDB Atlas and get the database URI
 4. Create a `.env` file in the `server` folder and add the following variables:
-    - `PORT`: the port number for the server (default is 5000)
-    - `MONGO_URI`: the database URI from MongoDB Atlas
-    - `JWT_SECRET`: a secret key for JWT
+   - `PORT`: the port number for the server (default is 5000)
+   - `MONGO_URI`: the database URI from MongoDB Atlas
+   - `JWT_SECRET`: a secret key for JWT
 5. Run `npm install` to install dependencies
 6. Run `npm start` to start.
 

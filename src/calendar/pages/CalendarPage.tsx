@@ -1,10 +1,11 @@
-import { Navbar } from "../components/Navbar"
+import { Calendar } from "../components/Calendar";
+import { Navbar } from "../components/Navbar";
 
 export const CalendarPage = () => {
-    return (
-        <div>
-            <Navbar/>
-        </div>
-    )
-
-}
+  return (
+    <div className="">
+      <Navbar />
+      <Calendar />
+    </div>
+  );
+};
