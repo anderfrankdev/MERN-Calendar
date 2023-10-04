@@ -66,6 +66,8 @@ export const Calendar = () => {
       <CreateEventModal
         visibility={modalVisibility}
         setVisibility={setModalVisibility}
+        title="Crear evento"
+        action={"newEvent"}
       />
     </div>
   );

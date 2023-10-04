@@ -1,9 +1,9 @@
 export interface EventStruc {
   title: string;
-  notes: string;
+  notes?: string;
   start: Date;
   end: Date;
-  user: {
+  user?: {
     _id: string;
     name: string;
   };
