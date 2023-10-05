@@ -1,4 +1,4 @@
-export const ModalHeader = ({setVisibility,title}:any)=>{
+export const ModalHeader = ({onCloseModal,title}:any)=>{
     return (
         <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -8,7 +8,7 @@ export const ModalHeader = ({setVisibility,title}:any)=>{
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="updateProductModal"
-              onClick={() => setVisibility("hidden")}
+              onClick={onCloseModal}
             >
               <svg
                 aria-hidden="true"

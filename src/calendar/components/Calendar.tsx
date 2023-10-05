@@ -1,29 +1,18 @@
 import { Calendar as BigCalendar, View } from "react-big-calendar";
-import { addHours } from "date-fns";
 import { localizer } from "../helpers/calendarLocalize";
 import { EventStruc } from "../../types";
 import { CalendarEvent } from "./CalendarEvent";
 import { CreateEventModal } from "./CreateEventModal";
-import { useState } from "react";
+import { useUiStore } from "../../hooks/useUiStore";
+import { useCalendarStore } from "../../hooks/useCalendarStore";
 
-const Events = [
-  {
-    title: "All Day Event very long title",
-    notes: "Somenotes",
-    bgColor: "#00c853",
-    start: addHours(new Date(), -2),
-    end: addHours(new Date(), 2),
-    user: {
-      _id: "1",
-      name: "Juan",
-    },
-  },
-];
 export const Calendar = () => {
-  const [modalVisibility, setModalVisibility] = useState("hidden");
 
   const lastViewSaved = localStorage.getItem("lastview") || "month";
 
+  const {isDateModalOpen,onCloseDateModal,onOpenDateModal} = useUiStore()
+  const {events,onSetActiveEvent} = useCalendarStore()
+  console.log(onSetActiveEvent)
   const eventStyleGetter = (
     event: EventStruc,
     start: Date,
@@ -34,13 +23,7 @@ export const Calendar = () => {
 
     return {};
   };
-  const onDoubleClick = (event: any) => {
-    console.log(event);
-  };
-  const onSelect = (event: any) => {
-    console.log({ click: event });
-    setModalVisibility("block");
-  };
+  
   const onViewChanged = (event: any) => {
     console.log({ viewChanged: event });
     localStorage.setItem("lastview", event);
@@ -53,21 +36,21 @@ export const Calendar = () => {
         defaultView={lastViewSaved as View}
         startAccessor="start"
         endAccessor="end"
-        events={Events}
+        events={events}
         style={{ height: window.innerHeight - 80 - 100 }}
         eventPropGetter={eventStyleGetter}
         components={{
           event: CalendarEvent,
         }}
-        onSelectEvent={onSelect}
-        onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={event=>onSetActiveEvent(event)}
+        onDoubleClickEvent={onOpenDateModal}
         onView={onViewChanged}
       />
       <CreateEventModal
-        visibility={modalVisibility}
-        setVisibility={setModalVisibility}
         title="Crear evento"
         action={"newEvent"}
+        isModalOpen={isDateModalOpen}
+        onCloseModal={onCloseDateModal}
       />
     </div>
   );

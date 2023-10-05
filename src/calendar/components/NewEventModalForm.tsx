@@ -1,15 +1,19 @@
 import { Datepicker } from "./DatePicker"
 import styles from "./CreateEventModal.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EventStruc } from "../../types";
 import { onNewEventInputChange } from "../events/onNewEventInputChange";
 import { newDefaultEvent } from "../data/newEvent";
+import { useCalendarStore } from "../../hooks/useCalendarStore";
 
 export const NewEventModalForm = ()=>{
-    
-    const [formValues, setFormValues] = useState<EventStruc>(newDefaultEvent)
+    const {activeEvent} = useCalendarStore()
 
+    const [formValues, setFormValues] = useState<EventStruc>(newDefaultEvent)
     
+    useEffect(()=>{
+      if(!!activeEvent) setFormValues({...activeEvent})
+    },[activeEvent])
     
     return (
         <form action="#">
@@ -21,7 +25,7 @@ export const NewEventModalForm = ()=>{
                 >
                   Start datetime
              </label>
-             <Datepicker minDate={new Date()} id="start" value={formValues.start} onInputChange={onNewEventInputChange({formValues,setFormValues})} name="start" />
+             <Datepicker minDate={new Date()} id="start" value={new Date(formValues.start)} onInputChange={onNewEventInputChange({formValues,setFormValues})} name="start" />
            </div>
            <div>
              <label
@@ -30,7 +34,7 @@ export const NewEventModalForm = ()=>{
              >
                End datetime
              </label>
-             <Datepicker minDate={formValues.start} id="end" value={formValues.end} onInputChange={onNewEventInputChange({formValues,setFormValues})} name="end" />
+             <Datepicker minDate={new Date(formValues.start)} id="end" value={new Date(formValues.end)} onInputChange={onNewEventInputChange({formValues,setFormValues})} name="end" />
            </div>
            <div className="col-span-2">
              <label
@@ -46,6 +50,7 @@ export const NewEventModalForm = ()=>{
                id="title"
                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                placeholder="Title"
+               value={formValues.title}
                required
              />
            </div>
@@ -63,6 +68,7 @@ export const NewEventModalForm = ()=>{
               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               placeholder="Write a description..."
               name="notes"
+              defaultValue={formValues.notes}
             />
           </div>
         </div>
