@@ -37,7 +37,7 @@ async (dispatch:Dispatch<AnyAction>) => {
     //console.log(getState());
 
 };
-export const startDeletingEvent = (event:EventStruc) => 
+export const startDeletingEvent = () => 
 async (dispatch:Dispatch<AnyAction>) => {
 
     //Enviar event en el backend
