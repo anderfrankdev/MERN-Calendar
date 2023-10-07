@@ -13,7 +13,7 @@ interface datapickerParams {
 export const Datepicker = ({minDate, id, name,onInputChange, value }:datapickerParams ) => {
   
   const onChange =(date:Date)=>{
-    onInputChange({target:{name,value:date.toLocaleString()}},date)
+    onInputChange(date,{target:{name,value:date.toLocaleString()}})
   }
   
   return (

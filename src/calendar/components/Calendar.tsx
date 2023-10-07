@@ -5,6 +5,9 @@ import { CalendarEvent } from "./CalendarEvent";
 import { CreateEventModal } from "./CreateEventModal";
 import { useUiStore } from "../../hooks/useUiStore";
 import { useCalendarStore } from "../../hooks/useCalendarStore";
+import { AddNewButton } from "./AddNewEventButton";
+import { clone } from "ramda";
+import { DeleteEventButton } from "./DeleteEventButton";
 
 export const Calendar = () => {
 
@@ -12,7 +15,6 @@ export const Calendar = () => {
 
   const {isDateModalOpen,onCloseDateModal,onOpenDateModal} = useUiStore()
   const {events,onSetActiveEvent} = useCalendarStore()
-  console.log(onSetActiveEvent)
   const eventStyleGetter = (
     event: EventStruc,
     start: Date,
@@ -36,13 +38,18 @@ export const Calendar = () => {
         defaultView={lastViewSaved as View}
         startAccessor="start"
         endAccessor="end"
-        events={events}
+        events={events.map(e=>{
+            const a:any = clone(e)
+            a.end=new Date(e.end)
+            a.start=new Date(e.start)
+          return a
+        })}
         style={{ height: window.innerHeight - 80 - 100 }}
         eventPropGetter={eventStyleGetter}
         components={{
           event: CalendarEvent,
         }}
-        onSelectEvent={event=>onSetActiveEvent(event)}
+        onSelectEvent={event=>onSetActiveEvent(JSON.parse(JSON.stringify(event)))}
         onDoubleClickEvent={onOpenDateModal}
         onView={onViewChanged}
       />
@@ -52,6 +59,8 @@ export const Calendar = () => {
         isModalOpen={isDateModalOpen}
         onCloseModal={onCloseDateModal}
       />
+      <AddNewButton/>
+      <DeleteEventButton/>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { CalendarDispatchers, CalendarState, } from "../types"
+import { CalendarDispatchers, CalendarState, CalendarThunks, } from "../types"
 import reducers from "../store/calendar/calendarSlice"
+import thunks from "../store/calendar/thunks"
 import { mapObjIndexed } from "ramda"
 
 export const useCalendarStore = () => {
@@ -8,14 +9,18 @@ export const useCalendarStore = () => {
     
     const dispatch = useDispatch()
 
-    const reducersToEventHandlers = (value:Function) => 
+    const ActionsToDispatchers = (value:Function) => 
         (...args:any) => dispatch(value(...args))
     
-    const calendarActions = mapObjIndexed(reducersToEventHandlers,reducers) 
+    const calendarActions = mapObjIndexed(ActionsToDispatchers,reducers) 
+
+    
+    const calendarThunks = mapObjIndexed(ActionsToDispatchers,thunks) 
 
     return {
         ...calendarState,
-        ...calendarActions as CalendarDispatchers
+        ...calendarActions as CalendarDispatchers,
+        ...calendarThunks as CalendarThunks
     }
 
 }

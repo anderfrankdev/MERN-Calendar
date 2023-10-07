@@ -42,7 +42,7 @@ export interface CalendarReducers {
   onSetActiveEvent: (state: CalendarState, { payload }: { payload: EventStruc }) => void;
   onAddNewEvent: (state: CalendarState, { payload }: { payload: EventStruc }) => void;
   onUpdateEvent: (state: CalendarState, { payload }: { payload: EventStruc }) => void;
-  onDeleteEvent: (state: CalendarState,{ payload }: { payload: string }) => void;
+  onDeleteEvent: (state: CalendarState) => void;
   onLoadingEvents: (state: CalendarState, { payload }: { payload: boolean }) => void;
   onSetMessageSaved: (state: CalendarState, { payload }: { payload: string }) => void;
   onSetMessageDeleted: (state: CalendarState, { payload }: { payload: string }) => void;
@@ -61,4 +61,10 @@ export interface CalendarDispatchers {
   onSetMessageDeleted:  (...args:any) => AnyAction;
   onSetMessageError:       (...args:any) => AnyAction;
   onSetMessageErrorDelete: (...args:any) => AnyAction;
+}
+export interface CalendarThunks {
+  [key: string]: (...args:any) => AnyAction;
+  startSavingEvent: (...args:any) => AnyAction;
+  startUpdatingEvent: (...args:any) => AnyAction;
+  startDeletingEvent: () => AnyAction;
 }
