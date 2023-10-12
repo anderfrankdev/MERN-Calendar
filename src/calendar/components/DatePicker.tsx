@@ -10,12 +10,17 @@ interface datapickerParams {
   minDate: Date;
 }
 
-export const Datepicker = ({minDate, id, name,onInputChange, value }:datapickerParams ) => {
-  
-  const onChange =(date:Date)=>{
-    onInputChange(date,{target:{name,value:date.toLocaleString()}})
-  }
-  
+export const Datepicker = ({
+  minDate,
+  id,
+  name,
+  onInputChange,
+  value,
+}: datapickerParams) => {
+  const onChange = (date: Date) => {
+    onInputChange(date, { target: { name, value: date.toLocaleString() } });
+  };
+
   return (
     <DatePicker
       onChange={onChange}

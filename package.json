@@ -10,12 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.5",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/ramda": "^0.29.5",
     "@types/react-big-calendar": "^1.6.5",
     "@types/react-datepicker": "^4.15.1",
     "@types/redux": "^3.6.0",
     "date-fns": "^2.30.0",
+    "graphql": "^16.8.1",
     "ramda": "^0.29.0",
     "react": "^18.2.0",
     "react-big-calendar": "^1.8.4",

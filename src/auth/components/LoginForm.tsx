@@ -1,4 +1,17 @@
+import { useLazyQuery } from "@apollo/client";
+import { useAuthStore } from "../../hooks/useAuthStore";
+import { useForm } from "../../hooks/useForm";
+import { LOGIN } from "../../graphql/queries";
+const initialFormData = {
+  email: "",
+  password: "",
+}
 export const LoginForm = ({ setAction }: any) => {
+  const { startLogin } = useAuthStore();
+  console.log(startLogin);
+  const { email, password, onInputChange } = useForm(initialFormData);
+  const [login, { data, loading, error }] = useLazyQuery(LOGIN);
+  console.log(data, loading, error);
   return (
     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -14,6 +27,8 @@ export const LoginForm = ({ setAction }: any) => {
               Your email
             </label>
             <input
+              onChange={onInputChange}
+              value={email}
               type="email"
               name="email"
               id="email"
@@ -30,6 +45,8 @@ export const LoginForm = ({ setAction }: any) => {
               Password
             </label>
             <input
+              value={password}
+              onChange={onInputChange}
               type="password"
               name="password"
               id="password"
@@ -46,7 +63,6 @@ export const LoginForm = ({ setAction }: any) => {
                   aria-describedby="remember"
                   type="checkbox"
                   className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                  required
                 />
               </div>
               <div className="ml-3 text-sm">
@@ -66,6 +82,10 @@ export const LoginForm = ({ setAction }: any) => {
             </a>
           </div>
           <button
+            onClick={(e) => {
+              e.preventDefault();
+              startLogin({ email, password }, login);
+            }}
             type="submit"
             className="w-full  bg-blue-800 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >

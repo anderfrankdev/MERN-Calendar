@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../hooks/useAuthStore";
 
 export const Navbar = () => {
   const [usermenu, setUsermenu] = useState<string>("hidden");
-  const navigate = useNavigate();
-
+  const { logout } = useAuthStore();
   return (
     <nav className="bg-white shadow relative border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -54,7 +53,7 @@ export const Navbar = () => {
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
                 <span
-                  onClick={() => navigate("/")}
+                  onClick={()=>logout()}
                   className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >
                   Sign out
