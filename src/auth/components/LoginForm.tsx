@@ -2,13 +2,13 @@ import { useLazyQuery } from "@apollo/client";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { useForm } from "../../hooks/useForm";
 import { LOGIN } from "../../graphql/queries";
+import { memo } from "react";
 const initialFormData = {
   email: "",
   password: "",
 }
-export const LoginForm = ({ setAction }: any) => {
+export const LoginForm = memo(({ setAction }: any) => {
   const { startLogin } = useAuthStore();
-  console.log(startLogin);
   const { email, password, onInputChange } = useForm(initialFormData);
   const [login, { data, loading, error }] = useLazyQuery(LOGIN);
   console.log(data, loading, error);
@@ -104,4 +104,4 @@ export const LoginForm = ({ setAction }: any) => {
       </div>
     </div>
   );
-};
+});

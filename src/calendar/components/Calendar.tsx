@@ -1,6 +1,6 @@
 import { Calendar as BigCalendar, View } from "react-big-calendar";
 import { localizer } from "../helpers/calendarLocalize";
-import { EventStruc } from "../../types";
+// import { EventStruc } from "../../types";
 import { CalendarEvent } from "./CalendarEvent";
 import { CreateEventModal } from "./CreateEventModal";
 import { useUiStore } from "../../hooks/useUiStore";
@@ -15,16 +15,16 @@ export const Calendar = () => {
   const { isDateModalOpen, onCloseDateModal, onOpenDateModal } = useUiStore();
 
   const { events, onSetActiveEvent } = useCalendarStore();
-  const eventStyleGetter = (
-    event: EventStruc,
-    start: Date,
-    end: Date,
-    isSelected: boolean,
-  ) => {
-    console.log({ event, start, end, isSelected });
+  // const eventStyleGetter = (
+  //   event: EventStruc,
+  //   start: Date,
+  //   end: Date,
+  //   isSelected: boolean,
+  // ) => {
+  //   console.log({ event, start, end, isSelected });
 
-    return {};
-  };
+  //   return {};
+  // };
 
   const onViewChanged = (event: any) => {
     console.log({ viewChanged: event });
@@ -45,7 +45,7 @@ export const Calendar = () => {
           return a;
         })}
         style={{ height: "calc(100vh - 72px - 80px)" }}
-        eventPropGetter={eventStyleGetter}
+        // eventPropGetter={eventStyleGetter}
         components={{
           event: CalendarEvent,
         }}
