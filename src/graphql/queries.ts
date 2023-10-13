@@ -22,3 +22,26 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const GETUSERDATA = gql`
+  query GetUserData($token: String!) {
+    getUserData(token: $token) {
+      ok
+      user {
+        id
+        fullname
+        email
+        events {
+          id
+          title
+          notes
+          start
+          end
+          createdBy
+        }
+      }
+      token
+      message
+    }
+  }
+`;

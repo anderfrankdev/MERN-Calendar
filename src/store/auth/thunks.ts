@@ -14,7 +14,7 @@ export const startLogin =
 
     //Enviar credenciales al backend
     const { data } = await login({ variables: { ...user } });
-    const { ok, token, user: userData } = data.login;
+    const { ok, token, user: userData } = data?.login || {ok:false} ;
     //guardamos si todo esta bien
     if (ok) {
       dispatch(actions.login(userData));
@@ -30,6 +30,7 @@ export const startLogin =
     //console.log(result);
     //console.log(getState());
   };
+
 export default {
-  startLogin,
+  startLogin
 };

@@ -3,7 +3,8 @@ import { useAuthStore } from "../../hooks/useAuthStore";
 
 export const Navbar = () => {
   const [usermenu, setUsermenu] = useState<string>("hidden");
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
+  const {fullname,email} = user!
   return (
     <nav className="bg-white shadow relative border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -44,10 +45,10 @@ export const Navbar = () => {
           >
             <div className="px-4 py-3">
               <span className="block text-sm text-gray-900 dark:text-white">
-                Bonnie Green
+                {fullname}
               </span>
               <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                name@flowbite.com
+                {email}
               </span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">

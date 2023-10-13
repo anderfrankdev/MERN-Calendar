@@ -1,15 +1,12 @@
 import { useLazyQuery } from "@apollo/client";
 import { useAuthStore } from "../../hooks/useAuthStore";
-import { useForm } from "../../hooks/useForm";
 import { LOGIN } from "../../graphql/queries";
-import { memo } from "react";
-const initialFormData = {
-  email: "",
-  password: "",
-}
+import { memo, useRef } from "react";
+
 export const LoginForm = memo(({ setAction }: any) => {
   const { startLogin } = useAuthStore();
-  const { email, password, onInputChange } = useForm(initialFormData);
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
   const [login, { data, loading, error }] = useLazyQuery(LOGIN);
   console.log(data, loading, error);
   return (
@@ -27,8 +24,7 @@ export const LoginForm = memo(({ setAction }: any) => {
               Your email
             </label>
             <input
-              onChange={onInputChange}
-              value={email}
+              ref={emailRef}
               type="email"
               name="email"
               id="email"
@@ -45,8 +41,7 @@ export const LoginForm = memo(({ setAction }: any) => {
               Password
             </label>
             <input
-              value={password}
-              onChange={onInputChange}
+              ref={passwordRef}
               type="password"
               name="password"
               id="password"
@@ -56,7 +51,7 @@ export const LoginForm = memo(({ setAction }: any) => {
             />
           </div>
           <div className="flex items-center justify-between">
-            <div className="flex items-start">
+            {/* <div className="flex items-start">
               <div className="flex items-center h-5">
                 <input
                   id="remember"
@@ -73,7 +68,7 @@ export const LoginForm = memo(({ setAction }: any) => {
                   Remember me
                 </label>
               </div>
-            </div>
+            </div> */}
             <a
               href="#"
               className="text-sm dark:text-white font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -84,6 +79,9 @@ export const LoginForm = memo(({ setAction }: any) => {
           <button
             onClick={(e) => {
               e.preventDefault();
+              const password = passwordRef.current!.value,
+                email = emailRef.current!.value
+              
               startLogin({ email, password }, login);
             }}
             type="submit"

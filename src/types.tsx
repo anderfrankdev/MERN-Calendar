@@ -114,9 +114,11 @@ export interface AuthDispatchers {
   startLogin: (...args: any) => AnyAction;
   login: (...args: any) => AnyAction;
   logout: () => AnyAction;
+  startGetUserData: (...args: any) => any;
 }
 
 export interface AuthThunks {
   [key: string]: (...args: any) => AnyAction;
   startLogin: (...args: any) => AnyAction;
+  startGetUserData: (...args: any) => any;
 }
