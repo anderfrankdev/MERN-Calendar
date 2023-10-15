@@ -8,13 +8,15 @@ import { useCalendarStore } from "../../hooks/useCalendarStore";
 import { AddNewButton } from "./AddNewEventButton";
 import { clone } from "ramda";
 import { DeleteEventButton } from "./DeleteEventButton";
+import { ErrorAlert } from "../../auth/components/errorAlert";
+import { useEffect } from "react";
 
 export const Calendar = () => {
   const lastViewSaved = localStorage.getItem("lastview") || "month";
 
   const { isDateModalOpen, onCloseDateModal, onOpenDateModal } = useUiStore();
 
-  const { events, onSetActiveEvent } = useCalendarStore();
+  const { events, onSetActiveEvent, messageError,onSetMessageError } = useCalendarStore();
   // const eventStyleGetter = (
   //   event: EventStruc,
   //   start: Date,
@@ -25,6 +27,14 @@ export const Calendar = () => {
 
   //   return {};
   // };
+  
+  useEffect(()=>{
+    if(messageError?.length>0){
+      setTimeout(()=>{
+        onSetMessageError("")
+      },3000)
+    }
+  },[messageError])
 
   const onViewChanged = (event: any) => {
     console.log({ viewChanged: event });
@@ -32,6 +42,7 @@ export const Calendar = () => {
   };
   return (
     <div className="relative py-10 px-4 min-h-[calc(100vh-72px)]">
+      {messageError?.length>0 && <ErrorAlert message={messageError}/>}
       <BigCalendar
         className="bg-white"
         localizer={localizer}
@@ -47,13 +58,14 @@ export const Calendar = () => {
         style={{ height: "calc(100vh - 72px - 80px)" }}
         // eventPropGetter={eventStyleGetter}
         components={{
-          event: CalendarEvent,
+          event: CalendarEvent(onOpenDateModal),
         }}
         onSelectEvent={(event) =>
           onSetActiveEvent(JSON.parse(JSON.stringify(event)))
         }
         onDoubleClickEvent={onOpenDateModal}
         onView={onViewChanged}
+        
       />
       <CreateEventModal
         title="Crear evento"

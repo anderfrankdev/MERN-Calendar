@@ -1,15 +1,23 @@
 import { useLazyQuery } from "@apollo/client";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { LOGIN } from "../../graphql/queries";
-import { memo, useRef } from "react";
-
+import { memo, useEffect, useRef, useState } from "react";
+import { LoadingPage } from "../../pages/LoadingPage";
+import validator from "validator";
+import { ErrorAlert } from "./errorAlert";
+const {isStrongPassword,isEmail} = validator
 export const LoginForm = memo(({ setAction }: any) => {
   const { startLogin } = useAuthStore();
   const passwordRef = useRef<HTMLInputElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
-  const [login, { data, loading, error }] = useLazyQuery(LOGIN);
-  console.log(data, loading, error);
+  const [login, { loading,data }] = useLazyQuery(LOGIN);
+  const [isValidForm, setIsValidForm] = useState(false);
+  useEffect(()=>{console.log(isValidForm)},[isValidForm])
+  if(loading) return LoadingPage
   return (
+    <>
+    {data?.login.ok===false && <ErrorAlert message={data?.login.message}/>}
+
     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -24,6 +32,16 @@ export const LoginForm = memo(({ setAction }: any) => {
               Your email
             </label>
             <input
+              onChange={()=>setIsValidForm(
+                isStrongPassword(passwordRef.current!?.value,{
+                  minLength: 6,
+                  minLowercase: 1,
+                  minUppercase: 1,
+                  minSymbols:1,
+                  minNumbers:1
+                }) && 
+                isEmail(emailRef.current!?.value)
+              )}
               ref={emailRef}
               type="email"
               name="email"
@@ -41,6 +59,16 @@ export const LoginForm = memo(({ setAction }: any) => {
               Password
             </label>
             <input
+              onChange={()=>setIsValidForm(
+                isStrongPassword(passwordRef.current!?.value,{
+                  minLength: 6,
+                  minLowercase: 1,
+                  minUppercase: 1,
+                  minSymbols:1,
+                  minNumbers:1
+                }) && 
+                isEmail(emailRef.current!?.value)
+              )}
               ref={passwordRef}
               type="password"
               name="password"
@@ -84,8 +112,9 @@ export const LoginForm = memo(({ setAction }: any) => {
               
               startLogin({ email, password }, login);
             }}
+            disabled={!isValidForm}
             type="submit"
-            className="w-full  bg-blue-800 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className="w-full disabled:bg-blue-400 bg-blue-800 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
             Sign in
           </button>
@@ -101,5 +130,6 @@ export const LoginForm = memo(({ setAction }: any) => {
         </form>
       </div>
     </div>
+    </>
   );
 });

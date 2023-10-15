@@ -5,8 +5,9 @@ export const Navbar = () => {
   const [usermenu, setUsermenu] = useState<string>("hidden");
   const { logout, user } = useAuthStore();
   const {fullname,email} = user!
+
   return (
-    <nav className="bg-white shadow relative border-gray-200 dark:bg-gray-900">
+    <nav className="bg-white shadow dark:shadow-none relative dark:bg-gray-900 dark:bg-gradient-to-bl  dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 border-gray-200 ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <span className="flex items-center">
           <img src="calendar.svg" className="h-8 mr-3" alt="Logo" />
