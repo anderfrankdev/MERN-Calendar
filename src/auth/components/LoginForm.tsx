@@ -12,7 +12,18 @@ export const LoginForm = memo(({ setAction }: any) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const [login, { loading,data }] = useLazyQuery(LOGIN);
   const [isValidForm, setIsValidForm] = useState(false);
-  useEffect(()=>{console.log(isValidForm)},[isValidForm])
+  useEffect(()=>{
+    setIsValidForm(
+      isStrongPassword(passwordRef.current!?.value,{
+        minLength: 6,
+        minLowercase: 1,
+        minUppercase: 1,
+        minSymbols:1,
+        minNumbers:1
+      }) && 
+      isEmail(emailRef.current!?.value)
+    )
+  },[])
   if(loading) return LoadingPage
   return (
     <>

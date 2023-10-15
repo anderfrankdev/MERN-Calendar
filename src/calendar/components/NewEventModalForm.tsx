@@ -5,7 +5,7 @@ import { EventStruc } from "../../types";
 import { onNewEventInputChange } from "../events/onNewEventInputChange";
 import { newDefaultEvent } from "../data/newEvent";
 import { useCalendarStore } from "../../hooks/useCalendarStore";
-import { CREATE_EVENT } from "../../graphql/mutations";
+import { CREATE_EVENT, EDIT_EVENT } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 export const NewEventModalForm = () => {
@@ -15,8 +15,8 @@ export const NewEventModalForm = () => {
   const [isValidForm, setIsValidForm] = useState<boolean>(false);
   const { startSavingEvent, startUpdatingEvent } = useCalendarStore();
   const titleRef = useRef<HTMLInputElement>(null);
-  const [createEvent, { loading, data }] = useMutation(CREATE_EVENT);
-  console.log(loading,data)
+  const [createEvent] = useMutation(CREATE_EVENT);
+  const [updateEvent] = useMutation(EDIT_EVENT);
   useEffect(() => {
     if (activeEvent) setFormValues({ ...activeEvent });
     if (!activeEvent) setFormValues(newDefaultEvent);
@@ -109,10 +109,9 @@ export const NewEventModalForm = () => {
             e.preventDefault();
             const newEvent = JSON.parse(JSON.stringify(formValues));
             if (!activeEvent) {
-              newEvent.id = new Date().getTime();
               startSavingEvent(newEvent,createEvent);
             }
-            if (activeEvent) startUpdatingEvent(newEvent);
+            if (activeEvent) startUpdatingEvent(newEvent,updateEvent);
 
             setFormValues(newDefaultEvent);
           }}

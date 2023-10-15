@@ -10,12 +10,14 @@ import { clone } from "ramda";
 import { DeleteEventButton } from "./DeleteEventButton";
 import { ErrorAlert } from "../../auth/components/errorAlert";
 import { useEffect } from "react";
+import { EditEventButton } from "./EditEventBtn";
+import { useRefreshToken } from "../../hooks/useRefreshToken";
 
 export const Calendar = () => {
   const lastViewSaved = localStorage.getItem("lastview") || "month";
 
   const { isDateModalOpen, onCloseDateModal, onOpenDateModal } = useUiStore();
-
+  const {refreshToken} = useRefreshToken()
   const { events, onSetActiveEvent, messageError,onSetMessageError } = useCalendarStore();
   // const eventStyleGetter = (
   //   event: EventStruc,
@@ -35,6 +37,13 @@ export const Calendar = () => {
       },3000)
     }
   },[messageError])
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refreshToken()
+    }, 1000*60*3)
+    return () => clearInterval(intervalId);
+  }, []);
 
   const onViewChanged = (event: any) => {
     console.log({ viewChanged: event });
@@ -58,7 +67,7 @@ export const Calendar = () => {
         style={{ height: "calc(100vh - 72px - 80px)" }}
         // eventPropGetter={eventStyleGetter}
         components={{
-          event: CalendarEvent(onOpenDateModal),
+          event: CalendarEvent,
         }}
         onSelectEvent={(event) =>
           onSetActiveEvent(JSON.parse(JSON.stringify(event)))
@@ -75,6 +84,7 @@ export const Calendar = () => {
       />
       <AddNewButton />
       <DeleteEventButton />
+      <EditEventButton/>
     </div>
   );
 };

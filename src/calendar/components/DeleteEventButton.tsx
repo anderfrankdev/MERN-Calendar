@@ -1,15 +1,19 @@
 import { useMemo } from "react";
 import { useCalendarStore } from "../../hooks/useCalendarStore";
+import { useMutation } from "@apollo/client";
+import { DELETE_EVENT } from "../../graphql/mutations";
 
 export const DeleteEventButton = () => {
   const { startDeletingEvent, activeEvent } = useCalendarStore();
   const visibility = useMemo(() => {
     return !activeEvent ? "hidden" : "block";
   }, [activeEvent]);
+  const [deleteEvent, { loading,data,error }] = useMutation(DELETE_EVENT);
+  console.log(loading,data,error)
   return (
     <button
       onClick={() => {
-        startDeletingEvent();
+        startDeletingEvent(activeEvent!,deleteEvent);
       }}
       type="button"
       className={`${visibility} w-16 h-16 flex justify-center items-center text-white absolute left-4 bottom-4 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2.5 text-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800`}

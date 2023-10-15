@@ -106,7 +106,7 @@ export interface CalendarThunks {
   [key: string]: (...args: any) => AnyAction;
   startSavingEvent: (...args: any) => AnyAction;
   startUpdatingEvent: (...args: any) => AnyAction;
-  startDeletingEvent: () => AnyAction;
+  startDeletingEvent: (event:EventStruc,createUser:Function) => AnyAction;
 }
 
 export interface AuthDispatchers {

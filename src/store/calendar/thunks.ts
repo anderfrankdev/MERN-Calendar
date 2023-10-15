@@ -11,52 +11,78 @@ export const startSavingEvent =
     createEvent: LazyQueryExecFunction<any, OperationVariables>,
   ) => async (dispatch: Dispatch<AnyAction>) => {
     const token = localStorage.getItem('token')
+    dispatch(onCloseDateModal());
 
     //Enviar event en el backend
     const { data } = await createEvent({ variables: { ...event,token} });
-    const { ok,message } = data?.createEvent || { ok: false };
+    const { ok,message,event:{id} } = data?.createEvent || { ok: false };
     //guardamos si todo esta bien
     if(message==="Token expired") {
       dispatch(authActions.logout())
     }
     if(ok){
+      event.id=id
       dispatch(actions.onAddNewEvent(event));
-      dispatch(actions.onSetMessageSuccess(message))
+      dispatch(actions.onSetMessageSaved(message))
       //Cerramos el modal
     }
     if(ok===false){
       dispatch(actions.onSetMessageError(message))
     }
-    dispatch(onCloseDateModal());
   };
 export const startUpdatingEvent =
-  (event: EventStruc) => async (dispatch: Dispatch<AnyAction>) => {
-    //Enviar event en el backend
+(
+  event: EventStruc,
+  updateEvent: LazyQueryExecFunction<any, OperationVariables>,
+) => async (dispatch: Dispatch<AnyAction>) => {
+  const token = localStorage.getItem('token')
+  dispatch(onCloseDateModal());
 
-    //guardamos si todo esta bien
+  //Enviar event en el backend
+  console.log(event)
+  
+  const { data } = await updateEvent({ variables: {...event ,token} });
+  console.log(data)
+  const { ok,message} = data?.updateEvent || { ok: false };
+  //guardamos si todo esta bien
+  if(message==="Token expired") {
+    dispatch(authActions.logout())
+  }
+  if(ok){
     dispatch(actions.onUpdateEvent(event));
+    dispatch(actions.onSetMessageSaved(message))
     //Cerramos el modal
-    dispatch(onCloseDateModal());
+  }
+  if(ok===false){
+    dispatch(actions.onSetMessageError(message))
+  }
 
-    //const result = await signInWithGoogle();
-
-    //result.ok ? dispatch(login(result)) : dispatch(logout(result));
-    //console.log(result);
-    //console.log(getState());
-  };
+};
 export const startDeletingEvent =
-  () => async (dispatch: Dispatch<AnyAction>) => {
-    //Enviar event en el backend
+(
+  event: EventStruc,
+  deleteEvent: LazyQueryExecFunction<any, OperationVariables>,
+) => async (dispatch: Dispatch<AnyAction>) => {
+  const token = localStorage.getItem('token')
 
-    //guardamos si todo esta bien
+  //Enviar event en el backend
+  console.log(event.id)
+  
+  const { data } = await deleteEvent({ variables: { eventId: event.id,token} });
+  const { ok,message } = data?.deleteEvent || { ok: false };
+  //guardamos si todo esta bien
+  if(message==="Token expired") {
+    dispatch(authActions.logout())
+  }
+  if(ok){
     dispatch(actions.onDeleteEvent());
-
-    //const result = await signInWithGoogle();
-
-    //result.ok ? dispatch(login(result)) : dispatch(logout(result));
-    //console.log(result);
-    //console.log(getState());
-  };
+    dispatch(actions.onSetMessageDeleted(message))
+    //Cerramos el modal
+  }
+  if(ok===false){
+    dispatch(actions.onSetMessageErrorDelete(message))
+  }
+};
 export default {
   startSavingEvent,
   startUpdatingEvent,

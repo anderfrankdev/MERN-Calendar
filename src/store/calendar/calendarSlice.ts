@@ -22,7 +22,7 @@ export const calendarSlice = createSlice<
 >({
   name: "calendar",
   initialState: {
-    events: [tempEvent],
+    events:[],
     activeEvent: null,
     isLoadingEvents: true,
     messageSaved: "",
