@@ -41,7 +41,7 @@ export const Calendar = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       refreshToken()
-    }, 1000*60*3)
+    }, 180000)
     return () => clearInterval(intervalId);
   }, []);
 

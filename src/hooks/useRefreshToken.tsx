@@ -11,10 +11,14 @@ export const useRefreshToken = () => {
     return {
         loading,
         refreshToken:async () => { 
+            console.log("refresh token started")
             const {data} = await refreshJwt({variables:{token}})
+            
             if(!data.refreshJwt.ok) return
             
             localStorage.setItem("token",data.refreshJwt.token)
+            console.log("refresh token finished")
+
         }
     }
 
