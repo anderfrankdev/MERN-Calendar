@@ -16,7 +16,7 @@ export const useCheckSession = () => {
         loading,
         checkSession:async () => { 
             const {data} = await getUserData({variables:{token}})
-            if(!data.getUserData.ok) return localStorage.removeItem("token")
+            if(!data?.getUserData?.ok) return localStorage.removeItem("token")
             dispatch(actions.login(data.getUserData.user));
             dispatch(calendarActions.onSetEvents(data.getUserData.user.events));
         }

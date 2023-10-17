@@ -1,19 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CalendarReducers, CalendarState } from "../../types";
-import { addHours } from "date-fns";
-
-const tempEvent = {
-  id: "12313213",
-  title: "All Day Event very long title",
-  notes: "Somenotes",
-  bgColor: "#00c853",
-  start: addHours(new Date(), -2).toJSON(),
-  end: addHours(new Date(), 2).toJSON(),
-  user: {
-    _id: "1",
-    name: "Juan",
-  },
-};
 
 export const calendarSlice = createSlice<
   CalendarState,
