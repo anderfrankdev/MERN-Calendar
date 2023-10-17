@@ -14,7 +14,7 @@ const defaultOptions: DefaultOptions = {
   },
 }
 export const client = new ApolloClient({
-  uri: "https://mern-calendar-backend-dev-tzer.2.us-1.fl0.io/graphql",
+  uri: "http://localhost:3000/graphql",
   cache:new InMemoryCache(),
   defaultOptions: defaultOptions
 });
